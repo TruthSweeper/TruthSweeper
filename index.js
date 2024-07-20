@@ -12,13 +12,16 @@ var debug = false
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 2//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 100//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
 
 var selectedQuestion = null
 var gameOver = false
+
+var allQuestions = []
+var questions = []
 
 console.log(dayOffset)
 
@@ -130,7 +133,7 @@ function updateTells() {
                 continue
             }
 
-            if (!neighbour.data("answer")) {
+            if (!neighbour.data("correct")) {
                 lies += 1
             }
         }
@@ -140,6 +143,42 @@ function updateTells() {
 
 }
 
+
+//Pure Questions Version
+// function addQuestions(questions) {
+
+//     let num = 0
+
+//     for (let s of $("#grid").find(".square")) {
+
+//         let square = $(s)
+
+//         if (square.hasClass("tell")) {
+//             continue
+//         }
+
+//         square.addClass("question")
+
+//         square.addClass("bi")
+//         square.data("state", "none")
+//         changeSquareState(square, "none")
+
+
+//         let question = questions[num]
+
+//         square.data("index", num)
+
+//         square.data("question", decodeHtml(question.question))
+//         square.data("answer", booleanAnswers[question.correct_answer])
+//         square.data("difficulty", question.difficulty)
+//         square.data("category", question.category)
+
+//         num += 1
+
+//     }
+// }
+
+//Multiple Answer Version
 function addQuestions(questions) {
 
     let num = 0
@@ -158,13 +197,30 @@ function addQuestions(questions) {
         square.data("state", "none")
         changeSquareState(square, "none")
 
-
-        let question = questions[num]
+        let shouldBeCorrect = mulberry32((num+1)*(1+dayOffset))() > 0.5
 
         square.data("index", num)
 
+        let question = questions[num]
+
         square.data("question", decodeHtml(question.question))
-        square.data("answer", booleanAnswers[question.correct_answer])
+
+        let answers = question.incorrect_answers
+        answers.splice(Math.floor(mulberry32(num*dayOffset)()*question.incorrect_answers.length), 0, question.correct_answer)
+
+        let highlight
+
+        if (shouldBeCorrect) {
+            highlight = question.correct_answer
+        } else {
+            highlight = question.incorrect_answers[Math.floor(question.incorrect_answers.length*mulberry32(num*dayOffset)())]
+        }
+
+        square.data("answers", answers)
+        square.data("highlighted_answer", highlight)
+        square.data("correct_answer", question.correct_answer)
+
+        square.data("correct", shouldBeCorrect)
         square.data("difficulty", question.difficulty)
         square.data("category", question.category)
 
@@ -211,7 +267,7 @@ function squareClicked(event) {
         }
 
         
-        updateCurrentQuestion(square.data("question"))
+        updateCurrentQuestion(square)
 
         selectedQuestion = square
         selectedQuestion.addClass("selected")
@@ -281,12 +337,34 @@ function markQuestion(newState) {
 
 }
 
-function updateCurrentQuestion(question) {
-    $("#current-question-text").text(question)
+function clearAnswers() {
+    for (let child of $("#answers").children()) {
+        $(child).remove()
+    }
+}
+
+function updateCurrentQuestion(square) {
+
+    $("#current-question-text").text(square.data("question"))
+
+    clearAnswers()
+
+    for (let answer of square.data("answers")) {
+        let a = $(`<div class="answer">${answer}</div>`)
+
+        if (square.data("highlighted_answer") === answer) {
+            a.addClass("highlight-correct")
+        } else {
+            a.addClass("highlight-wrong")
+        }
+        
+        $("#answers").append(a)
+    }
+
 }
 
 function finish() {
-    checkAnswers(questions.results)
+    checkAnswers(questions)
     $("#finish").hide()
     $("#question-options").hide()
 
@@ -318,9 +396,9 @@ function checkAnswers(questions) {
 
         let answer = booleanAnswers[square.data("state")]
 
-        let question = questions[parseInt(square.data("index"))]
+        // let question = questions[parseInt(square.data("index"))]
 
-        if (booleanAnswers[question.correct_answer] === answer) {
+        if (square.data("correct") === answer) {
             setTimeout(() => {
                 addThumb(square, true)
                 increaseScore()
@@ -353,7 +431,7 @@ function increaseScore() {
 function addThumb(square, correct) {
 
 
-    square.addClass("answer")
+    // square.addClass("answer")
     square.addClass(correct ? "correct" : "wrong")
 
 
@@ -383,9 +461,22 @@ function checkCanFinish() {
 
 }
 
-$(() => {
+const allQuestionsPath = "general_questions_v2.json"
+
+$.getJSON(allQuestionsPath, json => {
+
+    allQuestions = json
+    for (let i = 0; i < 12; i++) {
+        questions.push(allQuestions[(dayOffset*12)+i])
+    }
+
     createGrid(4)
     addTells(4, 16)
-    addQuestions(questions.results)
+    addQuestions(questions)
     updateTells()
+
+})
+
+$(() => {
+
 })

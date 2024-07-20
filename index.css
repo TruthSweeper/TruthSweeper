@@ -24,6 +24,10 @@ body {
     justify-content: center; 
 }
 
+#title {
+    margin-bottom: 0.2em;
+}
+
 #game {
     display: flex;
     flex-direction: column;
@@ -80,13 +84,47 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 0.2em;
+    gap: 0.1em;
 }
 
 #current-question-text {
     text-align: center;
-    height: 2em;
+    /* height: 2em; */
     padding: 0.5em;
+    margin-bottom: 0.2em;
+
+}
+
+
+#answers {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:space-between;
+    gap: 0.5em;
+    margin-bottom: 1em;
+    padding: 0.5em;
+}
+
+.answer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0;
+    padding: 0.5em;
+    color: white;
+    border-radius: 5px;
+    min-width: 20px;
+}
+
+.answer.highlight-correct {
+    background-color: rgb(0, 165, 0);
+    text-decoration: underline;
+}
+
+.answer.highlight-wrong {
+    background-color: var(--false-colour);
 
 }
 
@@ -218,13 +256,14 @@ body {
     filter: brightness(80%);
 }
 
-.square.answer.correct {
+.square.correct {
     background-color: rgb(120, 255, 120);
 }
 
-.square.answer.wrong {
+.square.wrong {
     background-color: rgb(255, 87, 87);
 }
+
 
 
 .answer-icon {
