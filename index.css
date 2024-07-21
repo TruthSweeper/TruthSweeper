@@ -54,6 +54,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 15px;
 }
 
 #score {
@@ -115,7 +116,6 @@ body {
     padding: 0.5em;
     color: white;
     border-radius: 5px;
-    min-width: 20px;
 }
 
 .answer.highlight-correct {
@@ -305,6 +305,25 @@ body {
 
 .square {
     font-size: 1.5em;
+}
+
+#current-question-text {
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+#answers {
+    margin-bottom: 0px;
+}
+
+.answer {
+    font-size: 0.9em;
+}
+
+#finish {
+    margin-top: 15px;
+    font-size: 1.5em;
+    padding: 0.5em;
 }
 
 

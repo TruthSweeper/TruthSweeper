@@ -10,9 +10,11 @@
 
 var debug = false
 
+const questionPath = "general_questions_shuffled.json"
+
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 100//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 2//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
@@ -461,9 +463,8 @@ function checkCanFinish() {
 
 }
 
-const allQuestionsPath = "general_questions_v2.json"
 
-$.getJSON(allQuestionsPath, json => {
+$.getJSON(questionPath, json => {
 
     allQuestions = json
     for (let i = 0; i < 12; i++) {
