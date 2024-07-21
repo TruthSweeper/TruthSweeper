@@ -10,11 +10,11 @@
 
 var debug = false
 
-const questionPath = "general_questions_shuffled.json"
+const questionPath = "all_questions_shuffled.json"
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 2//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 0//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
