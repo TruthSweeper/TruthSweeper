@@ -14,7 +14,7 @@ const questionPath = "all_questions_shuffled.json"
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 0//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 1000//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
@@ -77,6 +77,7 @@ function createGrid(size) {
             let square = $(`<div class="square"><div class="state"></div></div>`)
             square.data("x", x)
             square.data("y", y)
+            square.data("mark", "none")
             square.on("click", squareClicked)
 
             grid[y][x] = square
@@ -86,6 +87,25 @@ function createGrid(size) {
 
         $("#grid").append(row)
     }
+
+}
+
+function shuffleArray(array, seed) {
+
+    let shuffled = []
+
+    let count = 1
+
+    while (array.length > 0) {
+
+        let index = Math.floor(mulberry32(seed*count)()*array.length)
+        shuffled.push(array[index])
+        array.splice(index, 1)
+        count += 1
+
+    }
+
+    return shuffled
 
 }
 
@@ -112,14 +132,70 @@ function addTells(amount, max) {
         }
     }
 
+    let neighbourFreq = [[], [], [], [], [], [], [], [], []]
+
     for (let number of numbers) {
 
         let square = $("#grid").find(".square").eq(number)
         square.addClass("tell")
 
+        let neighbours = getQuestionNeighbours(square, 4)
+
+        neighbourFreq[neighbours.length].push(square)
+
+        // neighbours[0].data("mark_false", true)
+
     }
 
+    //This is fucking terrible, don't talk 2 me
+
+    for (let n = 1; n < neighbourFreq.length; n++) {
+
+        for (let index = 0; index < neighbourFreq[n].length; index++) {
+
+            let square = neighbourFreq[n][index]
+            let neighbours = shuffleArray(getQuestionNeighbours(square, 4), (dayOffset+1)*(index+1)*(n+1))
+
+            if (neighbours.length === 1) {
+                neighbours[0].data("mark", "false")
+                continue
+            }
+
+            let marked = 0
+            // console.log(Math.floor(mulberry32((dayOffset+1)*(index+1)*(n+1))()*neighbours.length)+1)
+            let markMax = Math.min(neighbours.length-1, Math.floor(mulberry32((dayOffset+1)*(index+1)*(n+1))()*neighbours.length)+1)
+            // let markMax = Math.min(neighbours.length-1, Math.max(1, Math.floor(mulberry32((dayOffset+1)*(index+1)*(n+1))()*neighbours.length)))
+
+            for (let neighbour of neighbours) {
+                if (neighbour.data("mark") === "false") {
+                    marked += 1
+                }
+            }
+
+            for (let neighbour of neighbours) {
+
+                if (neighbour.data("mark") === "none") {
+
+                    if (marked >= markMax) {
+                        neighbour.data("mark", "true")
+                    } else {
+                        neighbour.data("mark", "false")
+                        marked += 1
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+
 }
+
+
+
 
 function updateTells() {
 
@@ -199,7 +275,27 @@ function addQuestions(questions) {
         square.data("state", "none")
         changeSquareState(square, "none")
 
-        let shouldBeCorrect = mulberry32((num+1)*(1+dayOffset))() > 0.5
+        let shouldBeCorrect 
+
+        // if (square.data("mark_false")) {
+        //     shouldBeCorrect = false
+        // } else {
+        //     shouldBeCorrect = mulberry32((num+1)*(1+dayOffset))() > 0.5
+        // }
+
+        switch(square.data("mark")) {
+
+            case "false":
+                shouldBeCorrect = false
+                break;
+            case "true":
+                shouldBeCorrect = true
+                break;
+            case "none":
+                shouldBeCorrect = mulberry32((num+1)*(1+dayOffset))() > 0.5
+                break;
+
+        }
 
         square.data("index", num)
 
@@ -256,6 +352,22 @@ function getNeighbours(square, size) {
     }
 
     return neighbours
+
+}
+
+function getQuestionNeighbours(square, size) {
+
+    let neighbours = getNeighbours(square, size)
+    let newNeighbours = []
+
+    for (let neighbour of neighbours) {
+        if (neighbour.hasClass("tell")) {
+            continue
+        }
+        newNeighbours.push(neighbour)
+    }
+
+    return newNeighbours
 
 }
 
