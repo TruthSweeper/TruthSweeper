@@ -303,7 +303,7 @@ function addQuestions(questions) {
 
         square.data("question", decodeHtml(question.question))
 
-        let answers = question.incorrect_answers
+        let answers = question.incorrect_answers.slice()
         answers.splice(Math.floor(mulberry32(num*dayOffset)()*question.incorrect_answers.length), 0, question.correct_answer)
 
         let highlight
