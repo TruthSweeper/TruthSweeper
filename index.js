@@ -10,7 +10,7 @@
 
 var debug = false
 
-const questionPath = "all_questions_shuffled.json"
+const questionPath = "all_questions_shuffled_v2.json"
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate

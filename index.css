@@ -326,5 +326,16 @@ body {
     padding: 0.5em;
 }
 
+#question-options {
+    position: absolute;
+    bottom: 20px;
+}
+
+#finish {
+    position: absolute;
+    bottom: 20px;
+    right: 12px;
+    font-size: 1.2em;
+}
 
 }
