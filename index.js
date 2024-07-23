@@ -14,7 +14,7 @@ const questionPath = "all_questions_shuffled_v2.json"
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 1000//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 100//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
@@ -575,6 +575,13 @@ function checkCanFinish() {
 
 }
 
+function openHelp() {
+    $("#help").show()
+}
+
+function closeHelp() {
+    $("#help").hide()
+}
 
 $.getJSON(questionPath, json => {
 

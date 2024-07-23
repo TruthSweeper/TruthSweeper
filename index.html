@@ -23,6 +23,29 @@
     <!-- NEED TO CREDIT OPENTRIVIA THING -->
 
     <h1 id="title">Truth Sweeper</h1>
+    <div id="help-button" class="bi bi-question-circle" onclick="openHelp()"></div>
+
+    <div id="help" style="display: none;">
+        <div id="help-popup">
+            <div id="exit-help" class="bi bi-x" onclick="closeHelp()"></div>
+            <h1>How To Play</h1>
+            <p>Click on squares on the grid to see each question</p>
+            <p>Each question has 4 options, with one being the correct answer</p>
+            <p>Decide whether the option highlighted in green is correct and then either</p>
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
+                <p>Mark the square as correct</p>
+                <div class="bi bi-check-circle-fill" style="color:var(--true-colour); font-size: 2em;"></div>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
+                <p>Mark the square as incorrect</p>
+                <div class="bi bi-x-circle-fill" style="color:var(--false-colour); font-size: 2em;"></div>
+            </div>
+            <p>The red quares show how many adjacent squares are <i>incorrect</i></p>
+            <img src="eight-incorrect-example.png" style="width: 200px; height: 200px;"/>
+            <p>Once all squares have been marked you may finish the game and see your score</p>
+
+        </div>
+    </div>
 
     <div id="game">
         

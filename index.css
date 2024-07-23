@@ -13,6 +13,10 @@
 
   }
 
+  html {
+    height: 100%;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -21,7 +25,49 @@ body {
     height: 100%;
     overflow: hidden;
     margin: 0;
-    justify-content: center; 
+    justify-content: flex-start;
+        /* padding: 5px; */
+}
+
+#help {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.178);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+}
+
+
+#help-popup {
+
+    position: relative;
+    width: 60%;
+    height: 80%;
+    background-color: white;
+    display: flex;
+    border: 2px solid black;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    
+}
+
+#exit-help {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 4em;
+
+}
+
+#help-button {
+    font-size: 3em;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 #title {
@@ -35,6 +81,7 @@ body {
     align-items: center;
     margin-top: 0.2em;
     gap: 0.2em;
+    width: 100%;
 }
 
 #finish {
@@ -86,6 +133,7 @@ body {
     justify-content: center;
     flex-direction: column;
     gap: 0.1em;
+    width: 100%;
 }
 
 #current-question-text {
@@ -93,6 +141,7 @@ body {
     /* height: 2em; */
     padding: 0.5em;
     margin-bottom: 0.2em;
+    width: 100%;
 
 }
 
@@ -116,6 +165,7 @@ body {
     padding: 0.5em;
     color: white;
     border-radius: 5px;
+    word-wrap: break-word;
 }
 
 .answer.highlight-correct {
@@ -249,6 +299,7 @@ body {
 
 .square.tell {
     background-color: red;
+    color: white;
 }
 
 
@@ -303,6 +354,16 @@ body {
 
 @media only screen and (max-width: 800px) {
 
+#help-button {
+    font-size: 2em;
+    top: 5px;
+}
+    
+#title {
+    font-size: 1.4em;
+    margin-top: 10px;
+}
+
 .square {
     font-size: 1.5em;
 }
@@ -310,14 +371,23 @@ body {
 #current-question-text {
     font-size: 0.9em;
     margin-top: 5px;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 #answers {
-    margin-bottom: 0px;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+
 }
 
 .answer {
     font-size: 0.9em;
+    /* word-wrap: break-word; */
+    overflow-wrap: break-word;
+    /* word-break: break-all; */
 }
 
 #finish {
