@@ -52,7 +52,17 @@ body {
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
     
+}
+
+#example {
+    width: 200px; 
+    height: 200px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #exit-help {
@@ -354,9 +364,30 @@ body {
 
 @media only screen and (max-width: 800px) {
 
+#exit-help {
+    font-size: 3em;
+    right: 0px;
+    top: 0px;
+}
+
+#help-popup {
+    width: 90%;
+    height: 80%;
+    font-size: 0.8em;
+}
+
+#help-popup > p {
+ margin: 2px;
+}
+
 #help-button {
     font-size: 2em;
     top: 5px;
+}
+
+#example {
+    width: 100px; 
+    height: 100px;
 }
     
 #title {
