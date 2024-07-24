@@ -1,0 +1,138 @@
+/* @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"); */
+
+
+#stats {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.178);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+  }
+
+#stats-popup {
+
+    position: relative;
+
+    width: 50%;
+    height: 60%;
+    background-color: white;
+    border: 2px solid black;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    gap: 2em;
+    padding-top: 50px;
+
+}
+
+#exit-stats {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 4em;
+}
+
+#todays-score {
+    font-size: 2em;
+}
+
+#stat-numbers {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+    font-size: 1.5em;
+}
+
+#streak {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+#fire-icon {
+    color: red;
+}
+
+#distro {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    /* height: 200px; */
+
+}
+
+#bars {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+}
+
+.bar-container {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    /* margin-block: 0.5em; */
+    padding: 0%;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .bar {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(69, 196, 255);
+    color: white;
+    font-size: 1em;
+    font-weight: bold;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 5px;
+  }
+
+.bar-number {
+    margin: 0;
+    margin-top: 10px;
+    font-size: 1em;
+}
+  
+#share {
+    font-size: 2em;
+    color: white;
+    background-color: green;
+    border-radius: 0.2em;
+    padding: 0.3em;
+  }
+
+  @media only screen and (max-width: 800px) {
+
+    #stats-popup {
+        width: 80%;
+        height: 50%;
+        font-size: 0.6em;
+        padding-top: 20px;
+    }
+
+    #distro {
+        width: 100%;
+    }
+
+
+  }

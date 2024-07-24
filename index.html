@@ -10,6 +10,8 @@
 
 
     <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="stats.css">
+
     <script src="jquery.js"></script>
     <script src="questions.js"></script>
     <script src="index.js" defer></script>
@@ -24,6 +26,32 @@
 
     <h1 id="title">Truth Sweeper</h1>
     <div id="help-button" class="bi bi-question-circle" onclick="openHelp()"></div>
+    <div id="stats-button" class="bi bi-bar-chart" onclick="openStats()"></div>
+
+
+    <div id="stats">
+        <div id="stats-popup">
+
+            <div id="exit-stats" class="bi bi-x" onclick="closeStats()"></div>
+
+            <!-- <div style="font-size: 2em; position: absolute; top: 20px;">Truth Sweeper Stats</div> -->
+
+            <div id="todays-score">Today's Score: 8/12</div>
+
+            <div id="stat-numbers"><div id="games-player">1 Played</div><div id="streak"><div id="fire-icon" class="bi bi-fire"></div> 1 Day Streak</div></div>
+
+            <div id="distro">
+                <div id="bars">
+
+                </div>
+            </div>
+
+            <p>Come back tomorrow to try and beat your score!</p>
+
+            <div id="share" class="bi-share"> Share</div>
+
+        </div>
+    </div>
 
     <div id="help" style="display: none;">
         <div id="help-popup">

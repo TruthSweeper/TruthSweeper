@@ -583,6 +583,52 @@ function closeHelp() {
     $("#help").hide()
 }
 
+function openStats() {
+    $("#stats").show()
+}
+
+
+function closeStats() {
+    $("#stats").hide()
+}
+
+function createDistro() {
+
+    for (let b = 0; b < numQuestions+1; b++) {
+
+        let bar = $(`<div class="bar-container"><div class="bar">0</div><h5 class="bar-number">${b}</h5></div>`)
+        $("#bars").append(bar)
+
+    }
+
+}
+
+function configureDistro(distro, total) {
+    
+    for (let b = 0; b < numQuestions+1; b++) {
+
+        let barContainer = $("#bars").children().eq(b)
+        let bar = barContainer.find(".bar").eq(0)
+        // bar.css("height", "200px")
+
+        let maxHeight = 300
+
+        if (distro[b] > 0) {
+            bar.css("height", String(Math.max((distro[b]/total)*maxHeight, 20))+"px")
+            bar.text(distro[b])
+
+        } else {
+            bar.text("")
+            bar.css("height", "5px")
+
+        }
+
+
+
+    }
+
+}
+
 $.getJSON(questionPath, json => {
 
     allQuestions = json
@@ -594,6 +640,22 @@ $.getJSON(questionPath, json => {
     addTells(4, 16)
     addQuestions(questions)
     updateTells()
+    createDistro()
+    configureDistro({
+        0:2,
+        1:0,
+        2:4,
+        3:0,
+        4:2,
+        5:2,
+        6:8,
+        7:2,
+        8:30,
+        9:2,
+        10:10,
+        11:1,
+        12:3,
+    }, 70)
 
 })
 

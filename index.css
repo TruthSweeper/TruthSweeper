@@ -1,7 +1,7 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 
 :root {
-    --true-colour: rgb(47, 255, 75);
+    --true-colour: #69FF28;
     --false-colour: red;
 }
 
@@ -26,8 +26,12 @@ body {
     overflow: hidden;
     margin: 0;
     justify-content: flex-start;
+    background-color: #EBDCCB;
         /* padding: 5px; */
 }
+
+
+
 
 #help {
     position: absolute;
@@ -78,6 +82,13 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+#stats-button {
+    font-size: 3em;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 #title {
@@ -381,6 +392,11 @@ body {
 }
 
 #help-button {
+    font-size: 2em;
+    top: 5px;
+}
+
+#stats-button {
     font-size: 2em;
     top: 5px;
 }
