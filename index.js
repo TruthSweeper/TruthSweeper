@@ -14,13 +14,14 @@ const questionPath = "all_questions_shuffled_v2.json"
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 100//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 104//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
 
 var selectedQuestion = null
 var gameOver = false
+var gameStarted = false
 
 var allQuestions = []
 var questions = []
@@ -416,6 +417,11 @@ function changeSquareState(square, newState) {
         icon.removeClass("changed")
     })
 
+    if (gameStarted) {
+        saveGrid()
+    }
+
+    checkCanFinish()
 
 
 }
@@ -447,8 +453,6 @@ function markQuestion(newState) {
     changeSquareState(selectedQuestion, newState)
     updateQuestionButtons(newState)
 
-    checkCanFinish()
-
 }
 
 function clearAnswers() {
@@ -478,6 +482,11 @@ function updateCurrentQuestion(square) {
 }
 
 function finish() {
+
+    gameOver = true
+
+    fastScore = calculateScore(questions)
+
     checkAnswers(questions)
     $("#finish").hide()
     $("#question-options").hide()
@@ -485,6 +494,16 @@ function finish() {
     $("#score").text(`${0}/${numQuestions}`)
 
     $("#results").show()
+
+    window.localStorage.setItem("finished", true)
+
+    saveToday()
+
+    $(".post-game").show()
+
+    increaseStreak()
+
+    updateStats()
 
 }
 
@@ -531,7 +550,35 @@ function checkAnswers(questions) {
 
 }
 
+
+function calculateScore(questions) {
+
+    let cScore = 0
+
+    for (let s of $("#grid").find(".square.question")) {
+
+        let square = $(s)
+
+        if (square.data("state") === "none") {
+            return
+        }
+
+        let answer = booleanAnswers[square.data("state")]
+
+        // let question = questions[parseInt(square.data("index"))]
+
+        if (square.data("correct") === answer) {
+            cScore += 1
+        }
+    }
+
+    return cScore
+
+
+}
+
 var score = 0
+var fastScore = 0
 
 function increaseScore() {
     score += 1
@@ -592,6 +639,165 @@ function closeStats() {
     $("#stats").hide()
 }
 
+
+function loadGame() {
+
+    let saveStringDate = window.localStorage.getItem("current-date")
+
+    if (saveStringDate) {
+        if (!(dayOffset === parseInt(saveStringDate))) {
+
+            window.localStorage.setItem("current-date", dayOffset)
+            window.localStorage.removeItem("today-grid")
+            window.localStorage.removeItem("finished")
+
+        }
+    } else {
+        window.localStorage.setItem("current-date", dayOffset)
+    }
+
+    let saveStringGrid = window.localStorage.getItem("today-grid")
+
+    if (saveStringGrid) {
+
+        let grid = JSON.parse(saveStringGrid)
+
+        let questions = $("#grid").find(".square.question")
+
+        for (let s = 0; s < numQuestions; s++) {
+
+            let question = $(questions.eq(s))
+            changeSquareState(question, grid[s])
+
+        }
+
+    }
+
+    if (window.localStorage.getItem("finished")) {
+        finish()
+    }
+
+}
+
+function saveGrid() {
+
+    let grid = []
+
+    let questions = $("#grid").find(".square.question")
+
+    for (let s = 0; s < numQuestions; s++) {
+
+        let question = $(questions.eq(s))
+
+        grid.push(question.data("state"))
+
+    }
+
+    window.localStorage.setItem("today-grid", JSON.stringify(grid))
+
+}
+
+function saveToday() {
+
+    let saveString = window.localStorage.getItem("days")
+
+    let days
+
+    if (saveString) {
+
+        days = JSON.parse(saveString)
+
+    } else {
+        days = {}
+    }
+
+    days[dayOffset.toString()] = fastScore
+
+    window.localStorage.setItem("days", JSON.stringify(days))
+
+}
+
+function increaseStreak() {
+
+    let lastGame = window.localStorage.getItem("lastGame")
+
+    if (lastGame) {
+        if (parseInt(lastGame) < dayOffset) {
+            window.localStorage.setItem("streak", getStreak()+1)
+            window.localStorage.setItem("lastGame", dayOffset)
+        }
+    } else {
+        window.localStorage.setItem("streak", 1)
+        window.localStorage.setItem("lastGame", dayOffset)
+    }
+}
+
+function getStreak() {
+
+    if (window.localStorage.getItem("streak")) {
+        return parseInt(window.localStorage.getItem("streak"))
+    } else {
+        return 0
+    }
+
+}
+
+function updateStreak() {
+
+    let lastGame = window.localStorage.getItem("lastGame")
+
+    if (lastGame) {
+        if (dayOffset-parseInt(lastGame) > 1) {
+            window.localStorage.setItem("streak", 0)
+        }
+    } else {
+        window.localStorage.setItem("streak", 0)
+    }
+
+}
+
+function updateStats() {
+
+    $("#todays-score").text(`Today's Score: ${fastScore}/12`)
+
+    let streak = getStreak()
+
+    if (streak > 0) {
+        $("#streak").show()
+    } else {
+        $("#streak").hide()
+
+    }
+
+    $("#streak-text").text(`${streak} Day Streak`)
+
+    let saveStringDays = window.localStorage.getItem("days")
+
+    let days = {}
+
+    if (saveStringDays) {
+        days = JSON.parse(saveStringDays)
+    }
+
+    let distro = {}
+
+    for (let s = 0; s < numQuestions+1; s++) {
+        distro[s] = 0
+    }
+
+    for (let day of Object.keys(days)) {
+
+        distro[days[day]] += 1
+
+    }
+
+    $("#games-played").text(`${Object.keys(days).length} Games Played`)
+
+    configureDistro(distro, Object.keys(days).length)
+
+
+}
+
 function createDistro() {
 
     for (let b = 0; b < numQuestions+1; b++) {
@@ -611,10 +817,8 @@ function configureDistro(distro, total) {
         let bar = barContainer.find(".bar").eq(0)
         // bar.css("height", "200px")
 
-        let maxHeight = 300
-
         if (distro[b] > 0) {
-            bar.css("height", String(Math.max((distro[b]/total)*maxHeight, 20))+"px")
+            bar.css("height", String(Math.max((distro[b]/total)*100, 5))+"%")
             bar.text(distro[b])
 
         } else {
@@ -641,21 +845,11 @@ $.getJSON(questionPath, json => {
     addQuestions(questions)
     updateTells()
     createDistro()
-    configureDistro({
-        0:2,
-        1:0,
-        2:4,
-        3:0,
-        4:2,
-        5:2,
-        6:8,
-        7:2,
-        8:30,
-        9:2,
-        10:10,
-        11:1,
-        12:3,
-    }, 70)
+    loadGame()
+    updateStreak()
+    updateStats()
+
+    gameStarted = true
 
 })
 

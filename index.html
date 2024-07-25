@@ -29,26 +29,25 @@
     <div id="stats-button" class="bi bi-bar-chart" onclick="openStats()"></div>
 
 
-    <div id="stats">
+    <div id="stats" style="display: none;">
         <div id="stats-popup">
 
             <div id="exit-stats" class="bi bi-x" onclick="closeStats()"></div>
 
             <!-- <div style="font-size: 2em; position: absolute; top: 20px;">Truth Sweeper Stats</div> -->
 
-            <div id="todays-score">Today's Score: 8/12</div>
+            <div id="todays-score" class="post-game">Today's Score: 8/12</div>
 
-            <div id="stat-numbers"><div id="games-player">1 Played</div><div id="streak"><div id="fire-icon" class="bi bi-fire"></div> 1 Day Streak</div></div>
+            <div id="stat-numbers"><div id="games-played">1 Played</div><div id="streak"><div id="fire-icon" class="bi bi-fire"></div><div id="streak-text"></div></div></div>
 
             <div id="distro">
                 <div id="bars">
-
                 </div>
             </div>
 
-            <p>Come back tomorrow to try and beat your score!</p>
+            <p class="post-game">Come back tomorrow to try and beat your score!</p>
 
-            <div id="share" class="bi-share"> Share</div>
+            <div id="share" class="bi-share post-game"> Share</div>
 
         </div>
     </div>

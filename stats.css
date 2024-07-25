@@ -24,10 +24,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    padding: 10px;
+    justify-content: space-evenly;
+    padding: 15px;
     gap: 2em;
-    padding-top: 50px;
+    /* padding-top: 50px; */
 
 }
 
@@ -36,6 +36,10 @@
     right: 5px;
     top: 5px;
     font-size: 4em;
+}
+
+.post-game {
+    display: none;
 }
 
 #todays-score {
@@ -68,8 +72,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 60%;
-    /* height: 200px; */
+    width: 400px;
+    height: 200px;
 
 }
 
@@ -131,7 +135,7 @@
     }
 
     #distro {
-        width: 100%;
+        width: 80%;
     }
 
 
