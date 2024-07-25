@@ -12,9 +12,9 @@ var debug = false
 
 const questionPath = "all_questions_shuffled_v2.json"
 
-const offsetFromDate = new Date("16 July 2024")
+const offsetFromDate = new Date("26 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 2//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
@@ -25,6 +25,8 @@ var gameStarted = false
 
 var allQuestions = []
 var questions = []
+
+var openedStats = false
 
 console.log(dayOffset)
 
@@ -490,6 +492,8 @@ function updateCurrentQuestion(square) {
 
 function finish() {
 
+    openedStats = false
+
     gameOver = true
 
     fastScore = calculateScore(questions)
@@ -524,6 +528,9 @@ function autoFill() {
     }
 }
 
+const answerDelay = 450
+const statsDelay = 250
+
 function checkAnswers(questions) {
 
     for (let s of $("#grid").find(".square.question")) {
@@ -542,13 +549,19 @@ function checkAnswers(questions) {
             setTimeout(() => {
                 addThumb(square, true)
                 increaseScore()
-            }, parseInt(square.data("index"))*450)
+            }, parseInt(square.data("index"))*answerDelay)
         } else {
             setTimeout(() => {
                 addThumb(square, false)
-            }, parseInt(square.data("index"))*450)
+            }, parseInt(square.data("index"))*answerDelay)
 
         }
+
+        setTimeout(() => {
+            if (!openedStats) {
+                openStats()
+            }
+        }, ($("#grid").find(".square.question").length*answerDelay)+statsDelay)
 
 
 
@@ -639,6 +652,7 @@ function closeHelp() {
 
 function openStats() {
     $("#stats").show()
+    openedStats = true
 }
 
 
