@@ -14,7 +14,7 @@ const questionPath = "all_questions_shuffled_v2.json"
 
 const offsetFromDate = new Date("16 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
-const dayOffset = 104//Math.floor(msOffset / 1000 / 60 / 60 / 24)
+const dayOffset = 2//Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
 const numQuestions = 12
 const numTells = 4
@@ -75,7 +75,7 @@ function createGrid(size) {
         grid.push([])
 
         for (let x = 0; x < size; x++) {
-            let square = $(`<div class="square"><div class="state"></div></div>`)
+            let square = $(`<div class="square"><div class="state"><div class="state-back bi bi-circle-fill"></div></div></div>`)
             square.data("x", x)
             square.data("y", y)
             square.data("mark", "none")
@@ -431,10 +431,17 @@ function updateQuestionButtons(currentState, animate=true) {
     for (let state of ["none", "false", "true"]) {
         $(`#${state}-button`).removeClass(iconClassesCircled[state])
         $(`#${state}-button`).addClass(iconClasses[state])
+        if ($(`#${state}-button`).find(".state-back")) {
+            $(`#${state}-button`).find(".state-back").hide()
+        }
+        
     }
 
     $(`#${currentState}-button`).removeClass(iconClasses[currentState])
     $(`#${currentState}-button`).addClass(iconClassesCircled[currentState])
+    if ($(`#${currentState}-button`).find(".state-back")) {
+        $(`#${currentState}-button`).find(".state-back").show()
+    }
     if (animate) {
         $(`#${currentState}-button`).addClass("clicked")
         $(`#${currentState}-button`).on("animationend", () => {

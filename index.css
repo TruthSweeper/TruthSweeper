@@ -1,8 +1,9 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 
 :root {
-    --true-colour: #69FF28;
+    --true-colour: #55d11f;
     --false-colour: red;
+    --background-colour: rgb(29, 29, 29);;
 }
 
 *, *::after, *::before {
@@ -26,8 +27,10 @@ body {
     overflow: hidden;
     margin: 0;
     justify-content: flex-start;
-    background-color: #EBDCCB;
-        /* padding: 5px; */
+
+    background-color: var(--background-colour);
+
+    color: white;
 }
 
 
@@ -50,7 +53,7 @@ body {
     position: relative;
     width: 60%;
     height: 80%;
-    background-color: white;
+    background-color: var(--background-colour);
     display: flex;
     border: 2px solid black;
     align-items: center;
@@ -190,7 +193,7 @@ body {
 }
 
 .answer.highlight-correct {
-    background-color: rgb(0, 165, 0);
+    background-color: var(--true-colour);
     text-decoration: underline;
 }
 
@@ -209,6 +212,11 @@ body {
 
 .option-button {
     font-size: 3em;
+    position: relative;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     /* width: 1em;
     height: 1em; */
 }
@@ -243,7 +251,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.1em;
+    gap: 0.4em;
 }
 
 .grid-row {
@@ -251,7 +259,7 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.1em;
+    gap: 0.4em;
 }
 
 .square {
@@ -261,7 +269,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 0.05em solid rgb(83, 83, 83);
+    /* border: 0.05em solid rgb(83, 83, 83); */
     border-radius: 10px;
 
     width: 3em;
@@ -275,13 +283,26 @@ body {
 }
 
 .state {
+    position: relative;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
-    border-radius: 100%;
-    border-width: 0;
+    border: none;
+    z-index: 0;
+}
+
+.state-back {
+    color: white;
+    position: absolute;
+    z-index: -1;
+    transform: scale(0.8);
+    /* left: 0; */
+    /* z-index:; */
+}
+
+.state-back.none-option {
+    color: black;
 }
 
 .state.changed {
@@ -319,7 +340,7 @@ body {
 } */
 
 .square.tell {
-    background-color: red;
+    background-color: var(--false-colour);
     color: white;
 }
 
@@ -329,11 +350,11 @@ body {
 }
 
 .square.correct {
-    background-color: rgb(120, 255, 120);
+    background-color: var(--true-colour);
 }
 
 .square.wrong {
-    background-color: rgb(255, 87, 87);
+    background-color: var(--false-colour);
 }
 
 
