@@ -10,7 +10,7 @@
 
 var debug = false
 
-const questionPath = "all_questions_shuffled_v2.json"
+const questionPath = "questions"
 
 const offsetFromDate = new Date("26 July 2024")
 const msOffset = getTodaysDate() - offsetFromDate
@@ -23,7 +23,7 @@ var selectedQuestion = null
 var gameOver = false
 var gameStarted = false
 
-var allQuestions = []
+// var allQuestions = []
 var questions = []
 
 var openedStats = false
@@ -854,12 +854,14 @@ function configureDistro(distro, total) {
 
 }
 
-$.getJSON(questionPath, json => {
+$.getJSON(`${questionPath}/${dayOffset}.json`, json => {
 
-    allQuestions = json
-    for (let i = 0; i < 12; i++) {
-        questions.push(allQuestions[(dayOffset*12)+i])
-    }
+    // allQuestions = json
+    // for (let i = 0; i < 12; i++) {
+    //     questions.push(allQuestions[(dayOffset*12)+i])
+    // }
+
+    questions = json
 
     createGrid(4)
     addTells(4, 16)
