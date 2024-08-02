@@ -498,7 +498,7 @@ function finish() {
 
     fastScore = calculateScore(questions)
 
-    checkAnswers(questions)
+    checkAnswers()
     $("#finish").hide()
     $("#question-options").hide()
 
@@ -531,7 +531,8 @@ function autoFill() {
 const answerDelay = 450
 const statsDelay = 250
 
-function checkAnswers(questions) {
+
+function checkAnswers() {
 
     for (let s of $("#grid").find(".square.question")) {
 
@@ -573,6 +574,7 @@ function checkAnswers(questions) {
 
 function calculateScore(questions) {
 
+
     let cScore = 0
 
     for (let s of $("#grid").find(".square.question")) {
@@ -589,6 +591,9 @@ function calculateScore(questions) {
 
         if (square.data("correct") === answer) {
             cScore += 1
+            square.addClass("fast-correct")
+        } else {
+            square.addClass("fast-wrong")
         }
     }
 
@@ -851,6 +856,44 @@ function configureDistro(distro, total) {
 
 
     }
+
+}
+
+const shareColours = {
+  correct:"✅",
+  wrong:"❌",
+  tell:"💣",
+}
+
+
+function share() {
+
+    let message = `Truth Sweeper ${dayOffset}\n${fastScore}/12\n`
+
+    let count = 0
+
+    for (let square of $("#grid").find(".square")) {
+
+        if (count >= 4) {
+            message = message + "\n"
+            count = 0
+        }
+
+        if ($(square).hasClass("tell")) {
+            message = message + shareColours.tell 
+        } else if ($(square).hasClass("fast-correct")) {
+            message = message + shareColours.correct
+        } else {
+            message = message + shareColours.wrong
+        }
+
+        count += 1
+
+    }
+
+    message = message + `\nhttps://truthsweeper.com`
+    navigator.clipboard.writeText(message)
+
 
 }
 

@@ -331,7 +331,10 @@ body {
 
 .square.question.selected {
     /* background-color: aquamarine; */
-    filter: brightness(80%);
+    /* filter: brightness(80%); */
+    outline: 8px solid rgb(54, 159, 255);
+
+    outline-offset: -8px;
 
 }
 
@@ -345,9 +348,9 @@ body {
 }
 
 
-.square.question:hover {
+/* .square.question:hover {
     filter: brightness(80%);
-}
+} */
 
 .square.correct {
     background-color: var(--true-colour);
