@@ -193,13 +193,21 @@ body {
 }
 
 .answer.highlight-correct {
-    background-color: var(--true-colour);
+    background-color: rgb(42, 109, 253);;
     text-decoration: underline;
 }
 
 .answer.highlight-wrong {
-    background-color: var(--false-colour);
+    background-color: gray;
 
+}
+
+.answer.highlight-real-correct {
+    background-color: var(--true-colour);
+}
+
+.answer.answer.highlight-real-wrong {
+    background-color: var(--false-colour);
 }
 
 #question-options {

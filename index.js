@@ -479,10 +479,24 @@ function updateCurrentQuestion(square) {
     for (let answer of square.data("answers")) {
         let a = $(`<div class="answer">${answer}</div>`)
 
-        if (square.data("highlighted_answer") === answer) {
-            a.addClass("highlight-correct")
+        if (gameOver) {
+
+            if (square.data("correct_answer") === answer) {
+                a.addClass("highlight-real-correct")
+            } else {
+                if (square.data("highlighted_answer") === answer) {
+                    a.addClass("highlight-correct")
+                } else {
+                    a.addClass("highlight-real-wrong")
+                }
+            }
         } else {
-            a.addClass("highlight-wrong")
+
+            if (square.data("highlighted_answer") === answer) {
+                a.addClass("highlight-correct")
+            } else {
+                a.addClass("highlight-wrong")
+            }
         }
         
         $("#answers").append(a)
@@ -497,6 +511,10 @@ function finish() {
     gameOver = true
 
     fastScore = calculateScore(questions)
+
+    if (selectedQuestion) {
+        updateCurrentQuestion(selectedQuestion)
+    }
 
     checkAnswers()
     $("#finish").hide()
