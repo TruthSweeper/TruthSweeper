@@ -12,7 +12,7 @@ var debug = false
 
 const questionPath = "questions"
 
-const offsetFromDate = new Date("26 July 2024")
+const offsetFromDate = new Date("3 August 2024")
 const msOffset = getTodaysDate() - offsetFromDate
 const dayOffset = Math.floor(msOffset / 1000 / 60 / 60 / 24)
 
