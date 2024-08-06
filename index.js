@@ -219,7 +219,10 @@ function updateTells() {
             }
         }
 
-        tell.text(lies.toString())
+        let text = $(`<div class="tell-text"><div class="tell-num">${lies}</div><div class="tell-info">incorrect</div></div></div>`)
+
+        tell.text("")
+        tell.append(text)
     }
 
 }
@@ -519,6 +522,8 @@ function finish() {
     checkAnswers()
     $("#finish").hide()
     $("#question-options").hide()
+    $("#question-prompt").hide()
+
 
     $("#score").text(`${0}/${numQuestions}`)
 

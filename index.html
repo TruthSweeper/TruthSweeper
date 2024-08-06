@@ -79,17 +79,16 @@
             <div id="exit-help" class="bi bi-x" onclick="closeHelp()"></div>
             <h1>How To Play</h1>
             <p>Click on squares on the grid to see each question</p>
-            <p>Each question has 4 options, with one being the correct answer</p>
+            <p>Each question has multiple answers, with one being correct</p>
             <p>Decide whether the option highlighted in blue is correct and then either</p>
             <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
                 <p>Mark the square as correct</p>
                 <div class="bi bi-check-circle-fill" style="color:var(--true-colour); font-size: 2em;"></div>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 20px;">
-                <p>Mark the square as incorrect</p>
+                <p>or incorrect</p>
                 <div class="bi bi-x-circle-fill" style="color:var(--false-colour); font-size: 2em;"></div>
+           
             </div>
-            <p>The red quares show how many adjacent squares are <i>incorrect</i></p>
+            <p style="font-size: 1.2em;"><b>The red quares show how many adjacent squares are <span style="color: var(--false-colour); font-size: 1.2em;">INCORRECT</span></b></p>
             <img src="eight-incorrect-example.png" id="example"/>
             <p>Once all squares have been marked you may finish the game and see your score</p>
 
@@ -107,6 +106,7 @@
         <div id="current-question" style="display: none;">
             <p id="current-question-text"></p>
             <div id="answers"></div>
+            <div id="question-prompt">Is this the correct answer?</div>
             <div id="question-options">
                 <div class="option-button bi bi-x" id="false-button" onclick="markQuestion('false')"><div class="state-back bi bi-circle-fill" style="display: none;"></div></div>
                 <div class="option-button bi bi-question" id="none-button" style="color: white;" onclick="markQuestion('none')"></div>
